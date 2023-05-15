@@ -1,7 +1,6 @@
-package exercice.demo;
+package exercices.demo;
 
-import entity.Person;
-import exercice.todo.entity.Todo;
+import exercices.todo.entity.Todo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

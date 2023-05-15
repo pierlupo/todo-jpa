@@ -1,6 +1,6 @@
-package exercice.todo.util;
+package exercices.todo.util;
 
-import exercice.todo.entity.Todo;
+import exercices.todo.entity.Todo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,7 +35,7 @@ public class IHM {
                     deleteToDoAction();
                     break;
                 case "5":
-                   // ChangeToDoStatus();
+                    //ChangeToDoStatus();
                     break;
             }
         }while (!choix.equals("0"));
@@ -105,5 +105,18 @@ public class IHM {
         emf.close();
     }
 
+//    private void ChangeToDoStatus(){
+//        System.out.println("Enter the id of the todo you want to change status : ");
+//        Long id = scanner.nextLong();
+//        scanner.nextLine();
+//        EntityManager em = emf.createEntityManager();
+//        em.getTransaction().begin();
+//        Todo todo = em.find(Todo.class, id);
+//        em.setStatus(todo);
+//        em.getTransaction().commit();
+//        System.out.println("todo status changed");
+//        em.close();
+//        emf.close();
+//    }
 
 }

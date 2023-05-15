@@ -1,7 +1,7 @@
-package exercice.demo;
+package exercices.demo;
 
 
-import exercice.todo.util.IHM;
+import exercices.todo.util.IHM;
 
 public class Main {
     public static void main(String[] args) {

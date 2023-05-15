@@ -1,4 +1,4 @@
-package exercice.todo.entity;
+package exercices.todo.entity;
 
 import javax.persistence.*;
 
