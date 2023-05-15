@@ -69,7 +69,7 @@ public class IHM {
 
     private void getTodoByIdAction() {
         System.out.println("Enter the id of the todo you want to display : ");
-        int id = scanner.nextInt();
+        Long id = scanner.nextLong();
         scanner.nextLine();
         EntityManager em = emf.createEntityManager();
         Todo todo = em.find(Todo.class, id);
@@ -93,7 +93,7 @@ public class IHM {
 
     private void deleteToDoAction(){
         System.out.println("Enter the id of the todo to delete : ");
-        int id = scanner.nextInt();
+        Long id = scanner.nextLong();
         scanner.nextLine();
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
