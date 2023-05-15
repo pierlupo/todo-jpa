@@ -4,7 +4,7 @@
               xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
               http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
               version="2.0"  >
-    <persistence-unit  name="jpa_test">
+    <persistence-unit  name="exo_jpa">
 <!--Balise description optionnelle dans laquelle on peut décrire ce que l'on met dans le fichier-->
         <description>
             description du fichier
@@ -17,7 +17,8 @@
         <!--        <class>fr.jmdoudoux.dej.jpa.PersonneAdresse</class>-->
         <!--        <class>fr.jmdoudoux.dej.jpa.PersonneAdresse2</class>-->
         <!--        <class>fr.jmdoudoux.dej.jpa.PersonnePK</class>-->
-        <class>entity.Person</class>
+        <!--        <class>entity.Person</class>-->
+        <class>exercice.todo.entity.Todo</class>
         <properties>
         <!--Nom du pilote-->
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
@@ -27,7 +28,7 @@
         <!--Spécifie l'utilisateur-->
             <property name="javax.persistence.jdbc.user" value="root"/>
         <!--Spécifie le mdp-->
-            <property name="javax.persistence.jdbc.password" value="Guerrier@777"/>
+            <property name="javax.persistence.jdbc.password" value="*********"/>
         </properties>
     </persistence-unit>
 </persistence>

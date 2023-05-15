@@ -12,7 +12,7 @@ public class IHM {
 
     Scanner scanner;
     String choix;
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa_test");
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("exo_jpa");
     public IHM() {
         scanner = new Scanner(System.in);
     }
