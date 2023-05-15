@@ -1,0 +1,33 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<persistence  xmlns="http://java.sun.com/xml/ns/persistence"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+              http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+              version="2.0"  >
+    <persistence-unit  name="jpa_test">
+<!--Balise description optionnelle dans laquelle on peut décrire ce que l'on met dans le fichier-->
+        <description>
+            description du fichier
+        </description>
+        <!--Ci-dessous ex de balise provider optionnelle spécifie le fournisseur de persistance JPA à utiliser-->
+        <!--<provider>oracle.toplink.essentials.PersistenceProvider</provider>-->
+        <!--Ici les classes d'entités gérées avec leur chemin-->
+        <!--        <class>fr.jmdoudoux.dej.jpa.Adresse</class>-->
+        <!--        <class>fr.jmdoudoux.dej.jpa.Personne</class>-->
+        <!--        <class>fr.jmdoudoux.dej.jpa.PersonneAdresse</class>-->
+        <!--        <class>fr.jmdoudoux.dej.jpa.PersonneAdresse2</class>-->
+        <!--        <class>fr.jmdoudoux.dej.jpa.PersonnePK</class>-->
+        <class>entity.Person</class>
+        <properties>
+        <!--Nom du pilote-->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+        <!--Spécifie l'URI-->
+<!--            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/jpa_test"/>-->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/exo_jpa"/>
+        <!--Spécifie l'utilisateur-->
+            <property name="javax.persistence.jdbc.user" value="root"/>
+        <!--Spécifie le mdp-->
+            <property name="javax.persistence.jdbc.password" value="Guerrier@777"/>
+        </properties>
+    </persistence-unit>
+</persistence>
