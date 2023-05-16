@@ -12,7 +12,7 @@ public class Todo {
     //@Column(name = "")
     private String title;
 
-    private boolean status;
+    private boolean completed;
 
     public Todo() {
     }
@@ -21,14 +21,14 @@ public class Todo {
         this.title = title;
     }
 
-    public Todo(Long id, String title, boolean status) {
-        this(title, status);
+    public Todo(Long id, String title, boolean completed) {
+        this(title, completed);
         Id = id;
     }
 
     public Todo(String title, boolean status) {
         this.title = title;
-        this.status = status;
+        this.completed = completed;
     }
 
     public Long getId() {
@@ -47,12 +47,12 @@ public class Todo {
         this.title = title;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isCompleted() {
+        return completed;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Todo {
         return "Todo{" +
                 "Id=" + Id +
                 ", title='" + title + '\'' +
-                ", status=" + status +
+                ", completed=" + completed +
                 '}';
     }
 }

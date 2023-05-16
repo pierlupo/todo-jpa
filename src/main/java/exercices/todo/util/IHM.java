@@ -1,8 +1,8 @@
 package exercices.todo.util;
 
 import exercices.todo.entity.Todo;
+import exercices.todo.impl.TodoDAOImpl;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
@@ -10,40 +10,50 @@ import java.util.Scanner;
 
 public class IHM {
 
-    Scanner scanner;
-    String choix;
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("exo_jpa");
+    static Scanner scanner;
+
     public IHM() {
         scanner = new Scanner(System.in);
     }
+    private static EntityManagerFactory entityManagerFactory;
+    private static TodoDAOImpl todoDAO;
 
-    public void start() {
+    public static void start() {
+        String choice;
+        entityManagerFactory = Persistence.createEntityManagerFactory("exo_jpa");
+        todoDAO = new TodoDAOImpl(entityManagerFactory);
         do {
             menu();
-            choix = scanner.nextLine();
-            switch (choix) {
+            choice = scanner.nextLine();
+            switch (choice) {
                 case "1":
-                    addTodoAction();
+                    addTodo();
                     break;
                 case "2":
-                    getTodoByIdAction();
+                   // getTodoByIdAction();
                     break;
                 case "3":
-                    getAllTodosAction();
+                    displayTodos();
                     break;
                 case "4":
-                    deleteToDoAction();
+                    deleteTodo();
                     break;
                 case "5":
-                    //ChangeToDoStatus();
+                    markTodoAsCompleted();
                     break;
+                case "6":
+                    System.out.println("Bye");
+                    entityManagerFactory.close();
+                    break;
+                default:
+                    System.out.println("Invalid choice, try again please.");
             }
-        }while (!choix.equals("0"));
+        }while (!choice.equals("0"));
     }
-    private void menu() {
-        System.out.println("*********************");
-        System.out.println("WELCOME TO TODO JPA");
-        System.out.println("*********************");
+    private static void menu() {
+        System.out.println("###################################");
+        System.out.println("WELCOME TO A NEW TODO APP WITH JPA");
+        System.out.println("###################################");
         System.out.println("*********************");
         System.out.println("Choose an option :");
         System.out.println("*********************");
@@ -55,55 +65,107 @@ public class IHM {
         System.out.println("0 - Quit");
     }
 
-    private void addTodoAction() {
-        System.out.println("Enter the todo title you want to add : ");
+    private static void addTodo(){
+        System.out.println("Enter the title of the todo : ");
         String title = scanner.nextLine();
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        Todo todo = new Todo(title);
-        em.persist(todo);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
-    }
 
-    private void getTodoByIdAction() {
-        System.out.println("Enter the id of the todo you want to display : ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
-        EntityManager em = emf.createEntityManager();
-        Todo todo = em.find(Todo.class, id);
-        System.out.println(todo.toString());
-        em.close();
-        emf.close();
-    }
+        Todo todo = new Todo();
+        todo.setTitle(title);
+        //todo.setCompleted(false);
 
-    private void getAllTodosAction(){
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        List<Todo> todoList = null;
-        todoList = em.createQuery("select t from Todo t", Todo.class).getResultList();
-        for(Todo t:todoList){
-            System.out.println(t);
+        if(todoDAO.addTodo(todo)){
+            System.out.println("Todo successfully added !");
+        }else {
+            System.out.println("Error while trying to add a todo ");
         }
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
     }
 
-    private void deleteToDoAction(){
-        System.out.println("Enter the id of the todo to delete : ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        Todo todo = em.find(Todo.class, id);
-        em.remove(todo);
-        em.getTransaction().commit();
-        System.out.println("todo deleted");
-        em.close();
-        emf.close();
+    private static void displayTodos() {
+        List<Todo> todos = todoDAO.getAllTodos();
+
+        if (todos.isEmpty()) {
+            System.out.println("No Todos Found.");
+        } else {
+            System.out.println("### List of Todos ###");
+            for (Todo todo : todos) {
+                System.out.println(todo.getId() + ". " + todo.getTitle() + " (" + (todo.isCompleted() ? "Completed" : "Active") + ")");
+            }
+        }
     }
+
+    private static void deleteTodo(){
+        System.out.println("Enter the ID of the todo you want to delete : ");
+        Long todoId  = scanner.nextLong();
+        scanner.nextLine();
+
+        if (todoDAO.deleteTodo(todoId)){
+            System.out.println("Todo deleted");
+        }else {
+            System.out.println("Error while trying to delete the todo");
+        }
+    }
+
+    private static void markTodoAsCompleted(){
+        System.out.println("Enter the ID of the todo you want to update : ");
+        Long todoId  = scanner.nextLong();
+        scanner.nextLine();
+
+        if (todoDAO.markTodoAsCompleted(todoId)){
+            System.out.println("Todo updated");
+        }else {
+            System.out.println("Error while trying to update the todo");
+        }
+    }
+
+//    private void addTodoAction() {
+//        System.out.println("Enter the todo title you want to add : ");
+//        String title = scanner.nextLine();
+//        EntityManager em = emf.createEntityManager();
+//        em.getTransaction().begin();
+//        Todo todo = new Todo(title);
+//        em.persist(todo);
+//        em.getTransaction().commit();
+//        em.close();
+//        emf.close();
+//    }
+
+//    private void getTodoByIdAction() {
+//        System.out.println("Enter the id of the todo you want to display : ");
+//        Long id = scanner.nextLong();
+//        scanner.nextLine();
+//        EntityManager em = emf.createEntityManager();
+//        Todo todo = em.find(Todo.class, id);
+//        System.out.println(todo.toString());
+//        em.close();
+//        emf.close();
+//    }
+
+//    private void getAllTodosAction(){
+//        EntityManager em = emf.createEntityManager();
+//        em.getTransaction().begin();
+//        List<Todo> todoList = null;
+//        todoList = em.createQuery("select t from Todo t", Todo.class).getResultList();
+//        for(Todo t:todoList){
+//            System.out.println(t);
+//        }
+//        em.getTransaction().commit();
+//        em.close();
+//        emf.close();
+//    }
+
+//    private void deleteToDoAction(){
+//        System.out.println("Enter the id of the todo to delete : ");
+//        Long id = scanner.nextLong();
+//        scanner.nextLine();
+//        EntityManager em = emf.createEntityManager();
+//        em.getTransaction().begin();
+//        Todo todo = em.find(Todo.class, id);
+//        em.remove(todo);
+//        em.getTransaction().commit();
+//        System.out.println("todo deleted");
+//        em.close();
+//        emf.close();
+//    }
 
 //    private void ChangeToDoStatus(){
 //        System.out.println("Enter the id of the todo you want to change status : ");
