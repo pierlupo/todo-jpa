@@ -1,5 +1,7 @@
 package exercices.todo.entity;
 
+import entity.oneToOne.Address;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,12 +9,16 @@ import javax.persistence.*;
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "todoId")
     private Long Id;
     @Basic
     //@Column(name = "")
     private String title;
 
     private boolean completed;
+
+    @OneToOne(mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private TodoInfo todoInfo;
 
     public Todo() {
     }
@@ -26,7 +32,7 @@ public class Todo {
         Id = id;
     }
 
-    public Todo(String title, boolean status) {
+    public Todo(String title, boolean completed) {
         this.title = title;
         this.completed = completed;
     }
@@ -53,6 +59,14 @@ public class Todo {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public TodoInfo getTodoInfo() {
+        return todoInfo;
+    }
+
+    public void setTodoInfo(TodoInfo todoInfo) {
+        this.todoInfo = todoInfo;
     }
 
     @Override

@@ -1,10 +1,13 @@
 package exercices.todo.util;
 
 import exercices.todo.entity.Todo;
+import exercices.todo.entity.TodoInfo;
 import exercices.todo.impl.TodoDAOImpl;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -69,9 +72,27 @@ public class IHM {
         System.out.println("Enter the title of the todo : ");
         String title = scanner.nextLine();
 
+        System.out.println("Enter the description of the todo : ");
+        String desc = scanner.nextLine();
+
+        System.out.println("Enter the duedate of the todo (as such : dd.MM.yyyy) : ");
+        String duedateStr = scanner.nextLine();
+        LocalDate duedate = LocalDate.parse(duedateStr, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        System.out.println("Enter the priority of the todo : ");
+        int priority = scanner.nextInt();
+        scanner.nextLine();
+
         Todo todo = new Todo();
         todo.setTitle(title);
         //todo.setCompleted(false);
+
+        //création de la todoinfo:
+        TodoInfo todoInfo = new TodoInfo(desc, duedate, priority);
+
+        //mise en relation
+        todo.setTodoInfo(todoInfo);
+        todoInfo.setTodo(todo);
 
         if(todoDAO.addTodo(todo)){
             System.out.println("Todo successfully added !");
@@ -88,7 +109,10 @@ public class IHM {
         } else {
             System.out.println("### List of Todos ###");
             for (Todo todo : todos) {
+                System.out.println("############");
                 System.out.println(todo.getId() + ". " + todo.getTitle() + " (" + (todo.isCompleted() ? "Completed" : "Active") + ")");
+                System.out.println(todo.getTodoInfo().toString());
+                System.out.println("############");
             }
         }
     }

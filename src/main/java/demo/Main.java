@@ -5,6 +5,9 @@ public class Main {
         //Demo1.main();
         //Demo1.main2();
         //Demo1.remove();
-        Demo1.createQuery();
+        //Demo1.createQuery();
+        //Demo2.main();
+        //Demo3.main();
+
     }
 }
